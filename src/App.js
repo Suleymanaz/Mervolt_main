@@ -703,6 +703,7 @@ function App() {
                 {/* Right Column - Map */}
                 <div className="bg-white/70 backdrop-blur-sm p-4 rounded-2xl shadow-xl h-full min-h-[600px] overflow-hidden">
                   <iframe 
+                    title="Mervolt Elektrik Konum Haritası"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.9046033738517!2d34.49176937619167!3d36.74581847124135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15278b001b1e7fad%3A0x43a27c3b3f3d3124!2sMervolt%20Elektrik!5e0!3m2!1str!2str!4v1710799849633!5m2!1str!2str"
                     className="w-full h-full rounded-xl"
                     style={{ border: 0 }}
