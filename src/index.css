@@ -1,164 +1,144 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ---------- Base ---------- */
+html { scroll-padding-top: 80px; }
 
-/* Custom Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+body {
+  margin: 0;
+  background: #0E0F11;
+  font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ---------- Hero ---------- */
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(40px); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+.hero-in { opacity: 0; animation: heroIn 1s cubic-bezier(.2,.7,.2,1) forwards; }
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(236,234,228,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(236,234,228,0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
 }
 
-.animate-fadeIn {
-  animation: fadeIn 1s ease-out;
+.hero { --mx: 70%; --my: 30%; }
+.hero-glow {
+  background: radial-gradient(420px circle at var(--mx) var(--my), rgba(243,146,0,0.16), transparent 60%);
+  transition: background 0.1s;
 }
 
-.animate-slideUp {
-  animation: slideUp 1s ease-out;
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(236,234,228,0.85);
+}
+@media (max-width: 640px) { .text-stroke { -webkit-text-stroke-width: 1.2px; } }
+
+@keyframes voltage {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.voltage-text {
+  background: linear-gradient(90deg, #F39200, #FFDE00, #F39200, #FFDE00);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: voltage 4s linear infinite;
 }
 
-/* Custom logo styles for white background removal */
-.logo-transparent {
-  mix-blend-mode: multiply;
-  filter: contrast(1.5) brightness(0.9) saturate(1.2);
+/* Oscilloscope wave */
+@keyframes waveMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.wave { animation: waveMove 9s linear infinite; bottom: 96px; opacity: .8; filter: drop-shadow(0 0 8px rgba(243,146,0,0.6)); }
+
+/* Highlighter marker */
+.marker {
+  background: linear-gradient(transparent 58%, #FFDE00 58%, #FFDE00 90%, transparent 90%);
+  padding: 0 0.1em;
+}
+
+/* Timeline current */
+@keyframes current { from { background-position: -200px 0; } to { background-position: calc(100% + 200px) 0; } }
+.current-line {
+  background: linear-gradient(90deg, transparent, #F39200, #FFDE00, transparent) no-repeat;
+  background-size: 200px 100%;
+  animation: current 3.5s linear infinite;
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+.reveal.is-in { opacity: 1; transform: none; }
+
+/* ---------- Ticker band ---------- */
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+.ticker { display: flex; }
+.ticker-track { animation: ticker 28s linear infinite; flex-shrink: 0; }
+
+/* ---------- Floating labels ---------- */
+.field { position: relative; }
+.field input, .field textarea {
+  width: 100%;
   background: transparent;
+  border: 0;
+  border-bottom: 1.5px solid rgba(14,15,17,0.2);
+  padding: 1.4rem 0 0.5rem;
+  font-size: 1.05rem;
+  outline: none;
+  resize: none;
+  transition: border-color .3s;
+}
+.field input:focus, .field textarea:focus { border-color: #F39200; }
+.field label {
+  position: absolute; left: 0; top: 1.3rem;
+  color: rgba(14,15,17,0.5);
+  pointer-events: none;
+  transition: all .25s ease;
+}
+.field input:focus + label, .field input:not(:placeholder-shown) + label,
+.field textarea:focus + label, .field textarea:not(:placeholder-shown) + label {
+  top: 0; font-size: 0.7rem; letter-spacing: .15em; text-transform: uppercase; color: #C26F00;
 }
 
-/* Advanced white background removal */
-.logo-no-white {
-  filter: 
-    contrast(1.5) 
-    brightness(0.9) 
-    saturate(1.2)
-    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-  mix-blend-mode: multiply;
-  background: transparent;
-  /* Alternative approach for better white removal */
-  -webkit-filter: 
-    contrast(1.5) 
-    brightness(0.9) 
-    saturate(1.2);
-}
+/* ---------- Map ---------- */
+.map-dark { filter: grayscale(1) invert(0.92) contrast(0.9); transition: filter .5s; }
+.map-dark:hover { filter: none; }
 
-.logo-white-bg-remove {
-  background: transparent;
-  mix-blend-mode: multiply;
-}
+/* ---------- Mobile call button ---------- */
+@keyframes pulseRing { 0% { box-shadow: 0 0 0 0 rgba(243,146,0,.6); } 100% { box-shadow: 0 0 0 18px rgba(243,146,0,0); } }
+.pulse-ring { animation: pulseRing 2s infinite; }
 
-/* Alternative approach using CSS filters */
-.logo-filter {
-  filter: 
-    contrast(1.2) 
-    brightness(1.1) 
-    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-}
+/* ---------- Logo helpers (used by Admin) ---------- */
+.logo-transparent { mix-blend-mode: multiply; background: transparent; }
+.logo-invert { filter: brightness(0) invert(1); }
 
-/* For logos on dark backgrounds */
-.logo-invert {
-  filter: brightness(0) invert(1);
-}
-
-/* Most aggressive white background removal */
-.logo-transparent-advanced {
-  background: transparent;
-  mix-blend-mode: multiply;
-  filter: 
-    contrast(2) 
-    brightness(0.8) 
-    saturate(1.3)
-    drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-  /* CSS mask approach for better transparency */
-  -webkit-mask: 
-    linear-gradient(white, white) luminance,
-    linear-gradient(white, white);
-  -webkit-mask-composite: xor;
-}
-
-/* Marquee Animation */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
+/* ---------- Partners marquee ---------- */
+@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-33.333%); } }
 .marquee-container {
   overflow: hidden;
   position: relative;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
 }
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 30s linear infinite;
-}
-
-.marquee-track:hover {
-  animation-play-state: paused;
-}
-
-.marquee-item {
-  flex-shrink: 0;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
+.marquee-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item { flex-shrink: 0; padding: 0 2.5rem; display: flex; align-items: center; justify-content: center; }
 .marquee-item img {
-  height: 60px;
-  width: auto;
-  max-width: 150px;
-  object-fit: contain;
-  filter: grayscale(100%) opacity(0.6);
+  height: 60px; width: auto; max-width: 150px; object-fit: contain;
+  filter: grayscale(100%) opacity(0.55);
   transition: all 0.4s ease;
 }
+.marquee-item img:hover { filter: none; transform: scale(1.15); }
 
-.marquee-item img:hover {
-  filter: grayscale(0%) opacity(1);
-  transform: scale(1.15);
-}
+/* ---------- References carousel ---------- */
+.ref-carousel { overflow: hidden; position: relative; }
+.ref-carousel-track { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.ref-card { flex-shrink: 0; padding: 0 0.75rem; }
 
-/* Reference Carousel */
-.ref-carousel {
-  overflow: hidden;
-  position: relative;
-}
-
-.ref-carousel-track {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.ref-card {
-  flex-shrink: 0;
-  padding: 0 0.75rem;
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .hero-in, .reveal { opacity: 1; transform: none; filter: none; }
 }
